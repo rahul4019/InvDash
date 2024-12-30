@@ -3,19 +3,10 @@
 import * as React from "react";
 import {
   Archive,
-  AudioWaveform,
-  BookOpen,
-  Bot,
   ChartPie,
   ClipboardList,
-  Command,
-  Fan,
-  GalleryVerticalEnd,
-  Grid2x2,
   IndianRupee,
   Settings2,
-  ShoppingBag,
-  SquareTerminal,
   UserRound,
 } from "lucide-react";
 
@@ -28,6 +19,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
+import Image from "next/image";
 
 // This is sample data.
 const data = {
@@ -71,11 +63,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="py-4">
-        <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-          <Fan className="size-4" />
+        <div className="flex size-12 items-center justify-center rounded-lg text-sidebar-primary-foreground">
+          {/* <Fan className="size-4" /> */}
+          <Image
+            src="/invdash.png"
+            alt="logo"
+            width={80}
+            height={80}
+            className="rounded-sm border-2 border-primary"
+          />
         </div>
         <div className="grid flex-1 text-left text-sm leading-tight">
           {/* <span className="truncate font-semibold">InvDash</span> */}
+          <h1 className="font-bold text-xl">
+            <span className="text-primary">I</span>nv
+            <span className="text-primary">D</span>ash
+          </h1>
         </div>
       </SidebarHeader>
       <SidebarContent>
