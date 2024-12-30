@@ -1,8 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { LoaderCircle, Mic, Search } from "lucide-react";
+import { LoaderCircle, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function SearchInput() {
@@ -25,7 +24,7 @@ export default function SearchInput() {
       <div className="relative">
         <Input
           id="input-27"
-          className="peer pe-2 ps-9 w-96"
+          className="peer pe-2 ps-9 lg:w-96"
           placeholder="Search..."
           type="search"
           value={inputValue}

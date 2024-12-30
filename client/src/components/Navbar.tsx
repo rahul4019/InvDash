@@ -6,7 +6,7 @@ import SearchInput from "./SearchInput";
 
 function Navbar() {
   return (
-    <div className="flex gap-4 items-center flex-1 justify-between px-4">
+    <div className="flex items-center flex-1 justify-between px-4">
       <SearchInput />
       <div className="flex gap-4 items-center">
         <ModeToggle />
