@@ -25,33 +25,33 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: ChartPie,
       isActive: true,
     },
     {
       title: "Inventory",
-      url: "#",
+      url: "/inventory",
       icon: Archive,
     },
     {
       title: "Products",
-      url: "#",
+      url: "/products",
       icon: ClipboardList,
     },
     {
       title: "Users",
-      url: "#",
+      url: "/users",
       icon: UserRound,
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings2,
     },
     {
       title: "Expenses",
-      url: "#",
+      url: "/expenses",
       icon: IndianRupee,
     },
   ],
@@ -86,7 +86,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
+      <SidebarFooter></SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
