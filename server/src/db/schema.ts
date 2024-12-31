@@ -17,7 +17,7 @@ export const usersTable = pgTable("users", {
 export const productsTable = pgTable("products", {
   productId: text("product_id").primaryKey(),
   name: text("name").notNull(),
-  price: numeric("price", { precision: 2 }).notNull(),
+  price: numeric("price", { precision: 10}).notNull(),
   rating: numeric("rating"),
   stockQuantity: integer("stock_quantity").notNull(),
 });
@@ -29,8 +29,8 @@ export const salesTable = pgTable("sales", {
     .notNull(),
   timestamp: timestamp("timestamp").notNull(),
   quantity: integer("quantity").notNull(),
-  unitPrice: numeric("unit_price", { precision: 2 }).notNull(),
-  totalAmount: numeric("total_amount", { precision: 2 }).notNull(),
+  unitPrice: numeric("unit_price", { precision: 10}).notNull(),
+  totalAmount: numeric("total_amount", { precision: 10}).notNull(),
 });
 
 export const purchasesTable = pgTable("purchases", {
@@ -40,34 +40,34 @@ export const purchasesTable = pgTable("purchases", {
     .notNull(),
   timestamp: timestamp("timestamp").notNull(),
   quantity: integer("quantity").notNull(),
-  unitPrice: numeric("unit_price", { precision: 2 }).notNull(),
-  totalCost: numeric("total_cost", { precision: 2 }).notNull(),
+  unitPrice: numeric("unit_price", { precision: 10}).notNull(),
+  totalCost: numeric("total_cost", { precision: 10}).notNull(),
 });
 
 export const expensesTable = pgTable("expenses", {
   expenseId: text("expense_id").primaryKey(),
   category: text("category").notNull(),
-  amount: numeric("amount", { precision: 2 }).notNull(),
+  amount: numeric("amount", { precision: 10}).notNull(),
   timestamp: timestamp("timestamp").notNull(),
 });
 
 export const salesSummaryTable = pgTable("sales_summary", {
   salesSummaryId: text("sales_summary_id").primaryKey(),
-  totalValue: numeric("total_value", { precision: 2 }).notNull(),
-  changePercentage: numeric("change_percentage", { precision: 2 }).notNull(),
+  totalValue: numeric("total_value", { precision: 10}).notNull(),
+  changePercentage: numeric("change_percentage", { precision: 10}).notNull(),
   date: timestamp("date").notNull(),
 });
 
 export const purchaseSummaryTable = pgTable("purchase_summary", {
   purchaseSummaryId: text("purchase_summary_id").primaryKey(),
-  totalPurchased: numeric("total_purchased", { precision: 2 }).notNull(),
-  changePercentage: numeric("change_percentage", { precision: 2 }),
+  totalPurchased: numeric("total_purchased", { precision: 10}).notNull(),
+  changePercentage: numeric("change_percentage", { precision: 10}),
   date: timestamp("date").notNull(),
 });
 
 export const expenseSummaryTable = pgTable("expense_summary", {
   expenseSummaryId: text("expense_summary_id").primaryKey(),
-  totalExpenses: numeric("total_expenses", { precision: 2 }).notNull(),
+  totalExpenses: numeric("total_expenses", { precision: 10}).notNull(),
   date: timestamp("date").notNull(),
 });
 
