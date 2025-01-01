@@ -1,6 +1,7 @@
 "use client";
 
 import { PopularProductsCard } from "@/components/PopularProductsCard";
+import { PurchaseSummaryCard } from "@/components/PurchaseSummaryCard";
 import { SalesSummaryCard } from "@/components/SalesSummaryCard";
 
 export default function Home() {
@@ -12,7 +13,9 @@ export default function Home() {
       <div className="p-4 row-span-6">
         <SalesSummaryCard />
       </div>
-      <div className="bg-red-500 p-4 row-span-3">3</div>
+      <div className="p-4 row-span-3">
+        <PurchaseSummaryCard />
+      </div>
       <div className="bg-red-500 p-4 row-span-3">4</div>
       <div className="bg-red-500 rows-2">5</div>
       <div className="bg-red-500 rows-2">6</div>

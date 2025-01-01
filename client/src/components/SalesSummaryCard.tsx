@@ -23,11 +23,13 @@ import {
 } from "@/components/ui/chart";
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 
+// Define the structure for sales data
 interface SalesData {
   date: string;
   amount: number;
 }
 
+// Sample data for different time periods
 const weeklySales: SalesData[] = [
   { date: "Mon", amount: 1200 },
   { date: "Tue", amount: 1400 },
@@ -45,13 +47,15 @@ const monthlySales: SalesData[] = [
   { date: "Week 4", amount: 11800 },
 ];
 
+// Helper function to get the highest sales
 const getHighestSales = (data: SalesData[]) => {
   return data.reduce((max, sale) => (sale.amount > max.amount ? sale : max));
 };
 
+// Helper function to calculate total sales and percentage increase
 const getSalesSummary = (data: SalesData[]) => {
   const totalSales = data.reduce((sum, sale) => sum + sale.amount, 0);
-  const previousPeriodSales = data === weeklySales ? 10800 : 36000;
+  const previousPeriodSales = data === weeklySales ? 10800 : 36000; // Simulated previous period sales
   const percentageIncrease =
     ((totalSales - previousPeriodSales) / previousPeriodSales) * 100;
   return { totalSales, percentageIncrease };
@@ -67,12 +71,12 @@ export function SalesSummaryCard() {
   );
 
   return (
-    <Card className="w-full h-full flex flex-col">
-      <CardHeader className="flex-none">
+    <Card className="w-full max-w-md">
+      <CardHeader>
         <CardTitle>Sales Summary</CardTitle>
       </CardHeader>
-      <CardContent className="flex-grow flex flex-col">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <CardContent>
+        <div className="flex items-center justify-between mb-4">
           <div className="space-y-1">
             <p className="text-2xl font-bold">${totalSales.toLocaleString()}</p>
             <div className="flex items-center text-sm">
@@ -111,7 +115,7 @@ export function SalesSummaryCard() {
               color: "hsl(var(--chart-1))",
             },
           }}
-          className="flex-grow"
+          className="h-[200px]"
         >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={salesData}>
@@ -139,7 +143,7 @@ export function SalesSummaryCard() {
           </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-none flex flex-wrap justify-between text-sm text-muted-foreground">
+      <CardFooter className="flex justify-between text-sm text-muted-foreground">
         <div>
           Highest: ${highestSales.amount.toLocaleString()} on{" "}
           {highestSales.date}
