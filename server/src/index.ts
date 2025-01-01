@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
+import routes from "./routes";
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ app.use(
   }),
 );
 app.use(morgan("morgan"));
+
+app.use("/api/v1", routes);
 
 app.get("/", (_, res) => {
   res.status(200).json({ message: "Hello from InvDash API" });

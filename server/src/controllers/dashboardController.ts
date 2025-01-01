@@ -11,11 +11,11 @@ import {
 import { desc, sql } from "drizzle-orm";
 import { ApiResponse } from "../types/apiResponse";
 
-export const getDashboardMatrics = async (
-  _: Request,
+export const getDashboardMetrics = async (
+  req: Request,
   res: Response,
   next: NextFunction,
-): Promise<Response<ApiResponse> | void> => {
+): Promise<void> => {
   try {
     const popularProducts = await db
       .select()
@@ -41,13 +41,17 @@ export const getDashboardMatrics = async (
       .orderBy(desc(expenseSummaryTable.date))
       .limit(15);
 
-    const expenseByCategorySummary = db.select({
-      expenseByCategoryId: expenseByCategoryTable.expenseByCategoryId,
-      expenseSummaryId: expenseByCategoryTable.expenseSummaryId,
-      category: expenseByCategoryTable.category,
-      amount: sql<number>`CAST ${expenseByCategoryTable.amount} AS INT`,
-      date: expenseByCategoryTable.date,
-    });
+    const expenseByCategorySummary = await db
+      .select({
+        expenseByCategoryId: expenseByCategoryTable.expenseByCategoryId,
+        expenseSummaryId: expenseByCategoryTable.expenseSummaryId,
+        category: expenseByCategoryTable.category,
+        amount: sql<string>`CAST (${expenseByCategoryTable.amount} AS TEXT)`,
+        date: expenseByCategoryTable.date,
+      })
+      .from(expenseByCategoryTable)
+      .orderBy(desc(expenseByCategoryTable.date))
+      .limit(15);
 
     const response: ApiResponse = {
       success: true,
@@ -60,10 +64,11 @@ export const getDashboardMatrics = async (
       },
     };
 
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (error) {
+    console.error(error);
     const customError = new CustomError(
-      "Error retrieing dashboard matrics",
+      "Error retrieing dashboard metrics",
       500,
     );
     next(customError);
