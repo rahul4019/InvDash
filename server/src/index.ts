@@ -1,26 +1,26 @@
-import express from "express"
-import dotenv from 'dotenv'
-import helmet from "helmet"
-import morgan from 'morgan'
+import express from "express";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import morgan from "morgan";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-app.use(helmet.crossOriginResourcePolicy({
-  policy: "cross-origin"
-}))
-app.use(morgan("morgan"))
-
+app.use(express.json());
+app.use(
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin",
+  }),
+);
+app.use(morgan("morgan"));
 
 app.get("/", (_, res) => {
- res.status(200).json({message: "Hello from InvDash API"})
-})
+  res.status(200).json({ message: "Hello from InvDash API" });
+});
 
+const port = process.env.PORT || 8000;
 
-const port = process.env.PORT  || 8000
-
-app.listen( port, () => {
-  console.log(`Server is running at ${port}`)
-})
+app.listen(port, () => {
+  console.log(`Server is running at ${port}`);
+});
