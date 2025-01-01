@@ -14,7 +14,7 @@ app.use(
     policy: "cross-origin",
   }),
 );
-app.use(morgan("morgan"));
+app.use(morgan("common"));
 
 app.use("/api/v1", routes);
 
