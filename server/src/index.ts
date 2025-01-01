@@ -1,4 +1,4 @@
-import express,{Request, Response} from "express"
+import express from "express"
 import dotenv from 'dotenv'
 import helmet from "helmet"
 import morgan from 'morgan'
@@ -14,7 +14,7 @@ app.use(helmet.crossOriginResourcePolicy({
 app.use(morgan("morgan"))
 
 
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
  res.status(200).json({message: "Hello from InvDash API"})
 })
 
