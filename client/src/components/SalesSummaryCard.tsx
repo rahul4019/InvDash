@@ -71,7 +71,7 @@ export function SalesSummaryCard() {
   );
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full h-full">
       <CardHeader>
         <CardTitle>Sales Summary</CardTitle>
       </CardHeader>
@@ -115,7 +115,7 @@ export function SalesSummaryCard() {
               color: "hsl(var(--chart-1))",
             },
           }}
-          className="h-[200px]"
+          className="h-[200px] w-full"
         >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={salesData}>

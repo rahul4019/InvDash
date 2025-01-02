@@ -8,7 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ArrowDownIcon } from "lucide-react";
+import { Triangle } from "lucide-react";
 
 interface PurchaseData {
   date: string;
@@ -16,12 +16,12 @@ interface PurchaseData {
 }
 
 const purchaseData: PurchaseData[] = [
-  { date: "Jan", amount: 4000 },
-  { date: "Feb", amount: 3800 },
-  { date: "Mar", amount: 3600 },
-  { date: "Apr", amount: 3400 },
-  { date: "May", amount: 3200 },
-  { date: "Jun", amount: 3000 },
+  { date: "Jan", amount: 1000 },
+  { date: "Feb", amount: 1900 },
+  { date: "Mar", amount: 1600 },
+  { date: "Apr", amount: 1400 },
+  { date: "May", amount: 1200 },
+  { date: "Jun", amount: 1000 },
   { date: "Jul", amount: 2800 },
 ];
 
@@ -43,22 +43,21 @@ export function PurchaseSummaryCard() {
   );
 
   return (
-    <Card className="w-full flex flex-col">
+    <Card className="w-full flex flex-col h-full">
       <CardHeader className="flex-none">
         <CardTitle>Purchase Summary</CardTitle>
       </CardHeader>
-      <CardContent className="flex-grow flex flex-col">
+      <CardContent className="flex flex-col">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-          <div className="space-y-1">
+          <div className="flex gap-1">
             <p className="text-2xl font-bold">
               ${totalPurchases.toLocaleString()}
             </p>
             <div className="flex items-center text-sm">
-              <ArrowDownIcon className="w-4 h-4 mr-1 text-red-500" />
-              <span className="text-red-500">
+              <Triangle size={12} className="text-green-500 mr-1 font-bold" />
+              <span className="text-green-500 font-bold">
                 {percentageDecline.toFixed(1)}%
               </span>
-              <span className="text-muted-foreground ml-1">decline</span>
             </div>
           </div>
         </div>
@@ -69,7 +68,7 @@ export function PurchaseSummaryCard() {
               color: "hsl(var(--chart-2))",
             },
           }}
-          className="flex-grow"
+          className="h-[100px]"
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={purchaseData}>

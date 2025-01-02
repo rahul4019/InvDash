@@ -79,7 +79,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export function PopularProductsCard() {
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full flex flex-col h-full">
       <CardHeader>
         <CardTitle>Popular Products</CardTitle>
       </CardHeader>
