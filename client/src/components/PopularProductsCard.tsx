@@ -3,61 +3,8 @@ import { Star, StarHalf, ShoppingBag } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-
-// Define the structure for a product
-interface Product {
-  id: number;
-  title: string;
-  image: string;
-  rating: number;
-  unitsSold: number;
-}
-
-// Sample data for popular products
-const popularProducts: Product[] = [
-  {
-    id: 1,
-    title: "Wireless Earbuds",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 4.5,
-    unitsSold: 1234,
-  },
-  {
-    id: 2,
-    title: "Smart Watch",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 4.2,
-    unitsSold: 987,
-  },
-  {
-    id: 3,
-    title: "Bluetooth Speaker",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 4.7,
-    unitsSold: 1567,
-  },
-  {
-    id: 4,
-    title: "Laptop Stand",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 4.1,
-    unitsSold: 765,
-  },
-  {
-    id: 5,
-    title: "Phone Case",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 4.3,
-    unitsSold: 2345,
-  },
-  {
-    id: 6,
-    title: "Portable Charger",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 4.6,
-    unitsSold: 1876,
-  },
-];
+import { useGetDashboardMetricsQuery } from "@/lib/store/services/api";
+import { ProductCardSkeleton } from "./ProductCardSkeleton";
 
 // Component to render star ratings
 const StarRating = ({ rating }: { rating: number }) => {
@@ -67,17 +14,18 @@ const StarRating = ({ rating }: { rating: number }) => {
   return (
     <div className="flex items-center">
       {[...Array(fullStars)].map((_, i) => (
-        <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+        <Star key={i} className="w-4 h-4 fill-amber-500 text-foreground/50" />
       ))}
       {hasHalfStar && (
-        <StarHalf className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+        <StarHalf className="w-4 h-4 fill-amber-500 text-foreground/50" />
       )}
-      <span className="ml-1 text-sm text-gray-600">{rating.toFixed(1)}</span>
+      <span className="text-sm">{Number(rating).toFixed(1)}</span>
     </div>
   );
 };
 
 export function PopularProductsCard() {
+  const { data: response, isLoading } = useGetDashboardMetricsQuery();
   return (
     <Card className="w-full flex flex-col h-full">
       <CardHeader>
@@ -85,38 +33,57 @@ export function PopularProductsCard() {
       </CardHeader>
       <CardContent className="px-2">
         <ScrollArea className="h-[400px] pr-2">
-          <div className="space-y-4">
-            {popularProducts.map((product, index) => (
-              <div key={product.id}>
-                <div className="flex items-center justify-between space-x-2">
-                  <div className="flex items-center space-x-2">
-                    <Image
-                      src={product.image}
-                      alt={product.title}
-                      width={70}
-                      height={70}
-                      className="rounded-md object-cover"
-                    />
-                    <div className="space-y-1">
-                      <h3 className="font-medium leading-none">
-                        {product.title}
-                      </h3>
-                      <StarRating rating={product.rating} />
+          {isLoading ? (
+            <>
+              {[...Array(5)].map((_, i) => (
+                <div key={i}>
+                  <ProductCardSkeleton />
+                </div>
+              ))}
+            </>
+          ) : (
+            <div className="space-y-4">
+              {response?.data?.popularProducts.map((product, index) => (
+                <div key={product.productId}>
+                  <div className="flex items-center justify-between space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <Image
+                        src="/invdash.png"
+                        alt={product.name}
+                        width={70}
+                        height={70}
+                        className="rounded-md object-cover"
+                      />
+                      <div className="space-y-1">
+                        <h3 className="font-medium leading-none">
+                          {product.name}
+                        </h3>
+                        <div className="flex h-4 gap-2">
+                          <p className="text-primary font-semibold text-sm">
+                            ${product.price}
+                          </p>
+                          <Separator
+                            orientation="vertical"
+                            className="bg-primary/50"
+                          />
+                          <StarRating rating={product.rating!} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="bg-primary/20 p-2 rounded-full">
+                        <ShoppingBag className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium">
+                        {Math.round(product.stockQuantity / 1000)}k Sold
+                      </span>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <ShoppingBag className="w-4 h-4 text-gray-400" />
-                    <span className="text-sm font-medium">
-                      {product.unitsSold.toLocaleString()}
-                    </span>
-                  </div>
+                  <Separator className="mt-2" />
                 </div>
-                {index < popularProducts.length - 1 && (
-                  <Separator className="my-4" />
-                )}
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </ScrollArea>
       </CardContent>
     </Card>

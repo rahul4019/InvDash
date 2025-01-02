@@ -44,13 +44,20 @@ export interface DashboardMetrics {
   expenseByCategorySummary: ExpenseByCategorySummary[];
 }
 
+export interface ApiResponse<T = DashboardMetrics> {
+  success: boolean;
+  message?: string;
+  data?: T;
+  error?: string;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
   tagTypes: ["DashboardMetrics"],
   endpoints: (builder) => ({
-    getDashboardMetrics: builder.query<DashboardMetrics, void>({
-      query: () => "/dashboard",
+    getDashboardMetrics: builder.query<ApiResponse, void>({
+      query: () => "/api/v1/dashboard",
       providesTags: ["DashboardMetrics"],
     }),
   }),
