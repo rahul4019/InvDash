@@ -2,7 +2,6 @@ import { relations } from "drizzle-orm";
 import {
   bigint,
   integer,
-  numeric,
   pgTable,
   text,
   timestamp,
@@ -17,8 +16,8 @@ export const usersTable = pgTable("users", {
 export const productsTable = pgTable("products", {
   productId: text("product_id").primaryKey(),
   name: text("name").notNull(),
-  price: numeric("price", { precision: 10}).notNull(),
-  rating: numeric("rating"),
+  price: integer("price").notNull(),
+  rating: integer("rating"),
   stockQuantity: integer("stock_quantity").notNull(),
 });
 
@@ -29,8 +28,8 @@ export const salesTable = pgTable("sales", {
     .notNull(),
   timestamp: timestamp("timestamp").notNull(),
   quantity: integer("quantity").notNull(),
-  unitPrice: numeric("unit_price", { precision: 10}).notNull(),
-  totalAmount: numeric("total_amount", { precision: 10}).notNull(),
+  unitPrice: integer("unit_price").notNull(),
+  totalAmount: integer("total_amount").notNull(),
 });
 
 export const purchasesTable = pgTable("purchases", {
@@ -40,34 +39,34 @@ export const purchasesTable = pgTable("purchases", {
     .notNull(),
   timestamp: timestamp("timestamp").notNull(),
   quantity: integer("quantity").notNull(),
-  unitPrice: numeric("unit_price", { precision: 10}).notNull(),
-  totalCost: numeric("total_cost", { precision: 10}).notNull(),
+  unitPrice: integer("unit_price").notNull(),
+  totalCost: integer("total_cost").notNull(),
 });
 
 export const expensesTable = pgTable("expenses", {
   expenseId: text("expense_id").primaryKey(),
   category: text("category").notNull(),
-  amount: numeric("amount", { precision: 10}).notNull(),
+  amount: integer("amount").notNull(),
   timestamp: timestamp("timestamp").notNull(),
 });
 
 export const salesSummaryTable = pgTable("sales_summary", {
   salesSummaryId: text("sales_summary_id").primaryKey(),
-  totalValue: numeric("total_value", { precision: 10}).notNull(),
-  changePercentage: numeric("change_percentage", { precision: 10}).notNull(),
+  totalValue: integer("total_value").notNull(),
+  changePercentage: integer("change_percentage").notNull(),
   date: timestamp("date").notNull(),
 });
 
 export const purchaseSummaryTable = pgTable("purchase_summary", {
   purchaseSummaryId: text("purchase_summary_id").primaryKey(),
-  totalPurchased: numeric("total_purchased", { precision: 10}).notNull(),
-  changePercentage: numeric("change_percentage", { precision: 10}),
+  totalPurchased: integer("total_purchased").notNull(),
+  changePercentage: integer("change_percentage"),
   date: timestamp("date").notNull(),
 });
 
 export const expenseSummaryTable = pgTable("expense_summary", {
   expenseSummaryId: text("expense_summary_id").primaryKey(),
-  totalExpenses: numeric("total_expenses", { precision: 10}).notNull(),
+  totalExpenses: integer("total_expenses").notNull(),
   date: timestamp("date").notNull(),
 });
 
@@ -77,11 +76,10 @@ export const expenseByCategoryTable = pgTable("expense_by_category", {
     .references(() => expenseSummaryTable.expenseSummaryId)
     .notNull(),
   category: text("category").notNull(),
-  amount: bigint("amount", { mode: "number" }).notNull(),
+  amount: bigint("amount",{mode: "number"}).notNull(),
   date: timestamp("date").notNull(),
 });
 
-// Relations
 export const productsRelations = relations(productsTable, ({ many }) => ({
   sales: many(salesTable),
   purchases: many(purchasesTable),
