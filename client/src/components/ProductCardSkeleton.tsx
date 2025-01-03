@@ -32,13 +32,3 @@ export function ProductCardSkeleton() {
     </div>
   );
 }
-
-export function ProductCardSkeletonList() {
-  return (
-    <div className="space-y-4">
-      {[...Array(4)].map((_, index) => (
-        <ProductCardSkeleton key={index} />
-      ))}
-    </div>
-  );
-}

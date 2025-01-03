@@ -8,95 +8,109 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Triangle } from "lucide-react";
-
-interface PurchaseData {
-  date: string;
-  amount: number;
-}
-
-const purchaseData: PurchaseData[] = [
-  { date: "Jan", amount: 1000 },
-  { date: "Feb", amount: 1900 },
-  { date: "Mar", amount: 1600 },
-  { date: "Apr", amount: 1400 },
-  { date: "May", amount: 1200 },
-  { date: "Jun", amount: 1000 },
-  { date: "Jul", amount: 2800 },
-];
-
-const getPurchaseSummary = (data: PurchaseData[]) => {
-  const totalPurchases = data.reduce(
-    (sum, purchase) => sum + purchase.amount,
-    0,
-  );
-  const firstMonth = data[0].amount;
-  const lastMonth = data[data.length - 1].amount;
-  const percentageDecline = ((firstMonth - lastMonth) / firstMonth) * 100;
-  return { totalPurchases, percentageDecline };
-};
+import { TrendingDown, TrendingUp, Triangle } from "lucide-react";
+import { useGetDashboardMetricsQuery } from "@/lib/store/services/api";
+import numeral from "numeral";
 
 export function PurchaseSummaryCard() {
-  const { totalPurchases, percentageDecline } = useMemo(
-    () => getPurchaseSummary(purchaseData),
-    [],
-  );
+  const { data: response, isLoading } = useGetDashboardMetricsQuery();
+  const purchaseSummary = response?.data?.purchaseSummary || [];
 
+  const lastDataPoint = purchaseSummary[purchaseSummary.length - 1] || null;
   return (
     <Card className="w-full flex flex-col h-full">
       <CardHeader className="flex-none">
         <CardTitle>Purchase Summary</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-          <div className="flex gap-1">
-            <p className="text-2xl font-bold">
-              ${totalPurchases.toLocaleString()}
-            </p>
-            <div className="flex items-center text-sm">
-              <Triangle size={12} className="text-green-500 mr-1 font-bold" />
-              <span className="text-green-500 font-bold">
-                {percentageDecline.toFixed(1)}%
-              </span>
+        {isLoading ? (
+          <div>loading...</div>
+        ) : (
+          <>
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+              <div className="flex items-baseline gap-1">
+                <p className="text-2xl font-bold">
+                  {lastDataPoint
+                    ? numeral(lastDataPoint.totalPurchased).format("$0.00a")
+                    : "0"}
+                </p>
+                <div className="flex items-center text-sm">
+                  {lastDataPoint.changePercentage! >= 0 ? (
+                    <>
+                      <TrendingUp
+                        size={12}
+                        className="text-green-500 mr-1 font-semibold"
+                      />
+                      <span className="text-green-500 mr-1 font-semibold">
+                        {Math.abs(lastDataPoint.changePercentage!)}%
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <TrendingDown
+                        size={12}
+                        className="text-red-500 mr-1 font-semibold"
+                      />
+                      <span className="font-semibold text-red-500">
+                        {Math.abs(lastDataPoint.changePercentage!)}%
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <ChartContainer
-          config={{
-            amount: {
-              label: "Amount",
-              color: "hsl(var(--chart-2))",
-            },
-          }}
-          className="h-[100px]"
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={purchaseData}>
-              <XAxis
-                dataKey="date"
-                stroke="#888888"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis
-                stroke="#888888"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => `$${value}`}
-              />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Area
-                type="monotone"
-                dataKey="amount"
-                stroke="var(--color-amount)"
-                fill="var(--color-amount)"
-                fillOpacity={0.2}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+            <ChartContainer
+              config={{
+                amount: {
+                  label: "Amount",
+                  color: "hsl(var(--chart-2))",
+                },
+              }}
+              className="h-[230px] -mt-10"
+            >
+              <ResponsiveContainer width="100%" className="p-2">
+                <AreaChart
+                  data={purchaseSummary}
+                  margin={{ top: 0, right: 0, left: -80, bottom: 60 }}
+                >
+                  <XAxis
+                    dataKey="date"
+                    fontSize={0}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    fontSize={0}
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={(value) => `$${value}`}
+                  />
+                  <ChartTooltip
+                    formatter={(value: number) => [
+                      `$${value.toLocaleString("en")}`,
+                    ]}
+                    labelFormatter={(label) => {
+                      const date = new Date(label);
+                      return date.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      });
+                    }}
+                    content={<ChartTooltipContent />}
+                  />
+                  <Area
+                    type="linear"
+                    dataKey="totalPurchased"
+                    stroke="var(--color-amount)"
+                    fill="var(--color-amount)"
+                    dot={true}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </>
+        )}
       </CardContent>
     </Card>
   );
