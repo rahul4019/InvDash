@@ -23,7 +23,7 @@ export const getDashboardMetrics = async (
       .orderBy(desc(productsTable.stockQuantity))
       .limit(15);
 
-    const saleSummary = await db
+    const salesSummary = await db
       .select()
       .from(salesSummaryTable)
       .orderBy(desc(salesSummaryTable.date))
@@ -57,7 +57,7 @@ export const getDashboardMetrics = async (
       success: true,
       data: {
         popularProducts,
-        saleSummary,
+        salesSummary,
         purchaseSummary,
         expenseSummary,
         expenseByCategorySummary,

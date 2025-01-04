@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -17,9 +16,10 @@ export function PurchaseSummaryCard() {
   const purchaseSummary = response?.data?.purchaseSummary || [];
 
   const lastDataPoint = purchaseSummary[purchaseSummary.length - 1] || null;
+
   return (
     <Card className="w-full flex flex-col h-full">
-      <CardHeader className="flex-none">
+      <CardHeader>
         <CardTitle>Purchase Summary</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col">

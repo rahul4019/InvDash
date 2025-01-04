@@ -8,7 +8,7 @@ export interface Product {
   stockQuantity: number;
 }
 
-export interface SaleSummary {
+export interface SalesSummary {
   salesSummaryId: string;
   totalValue: number;
   changePercentage: number;
@@ -38,7 +38,7 @@ export interface ExpenseByCategorySummary {
 
 export interface DashboardMetrics {
   popularProducts: Product[];
-  saleSummary: SaleSummary[];
+  salesSummary: SalesSummary[];
   purchaseSummary: PurchaseSummary[];
   expenseSummary: ExpenseSummary[];
   expenseByCategorySummary: ExpenseByCategorySummary[];
