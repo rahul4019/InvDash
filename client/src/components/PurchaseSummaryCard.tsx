@@ -7,9 +7,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { TrendingDown, TrendingUp, Triangle } from "lucide-react";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { useGetDashboardMetricsQuery } from "@/lib/store/services/api";
 import numeral from "numeral";
+import PurchaseSummarySkeleton from "./PurchaseSummarySkeleton";
 
 export function PurchaseSummaryCard() {
   const { data: response, isLoading } = useGetDashboardMetricsQuery();
@@ -24,7 +25,7 @@ export function PurchaseSummaryCard() {
       </CardHeader>
       <CardContent className="flex flex-col">
         {isLoading ? (
-          <div>loading...</div>
+          <PurchaseSummarySkeleton />
         ) : (
           <>
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
