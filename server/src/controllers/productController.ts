@@ -29,3 +29,31 @@ export const getProducts = async (
     next(customError);
   }
 };
+
+export const createProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { productId, name, price, rating, stockQuantity } = req.body;
+    const product: typeof productsTable.$inferInsert = {
+      productId,
+      name,
+      price,
+      rating,
+      stockQuantity,
+    };
+    const insertedProduct = await db.insert(productsTable).values(product);
+
+    const response: ApiResponse = {
+      success: true,
+      data: insertedProduct,
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    const customError = new CustomError("Error creating product", 500);
+    next(customError);
+  }
+};
