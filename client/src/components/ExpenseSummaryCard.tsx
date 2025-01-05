@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PieChart, Pie, Label } from "recharts";
+import { PieChart, Pie, Label, Cell } from "recharts";
 import { TrendingUp } from "lucide-react";
 
 import {
@@ -17,126 +17,147 @@ import {
   ChartTooltipContent,
 } from "./ui/chart";
 import React from "react";
+import {
+  ExpenseByCategorySummary,
+  useGetDashboardMetricsQuery,
+} from "@/lib/store/services/api";
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
+interface ExpenseSums {
+  [category: string]: number;
+}
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  expenses: {
+    label: "Expenses",
   },
-  chrome: {
-    label: "Chrome",
+  officeExpense: {
+    label: "Office Expenses",
     color: "hsl(var(--chart-1))",
   },
-  safari: {
-    label: "Safari",
+  professionalExpenses: {
+    label: "Professional Expenses",
     color: "hsl(var(--chart-2))",
   },
-  firefox: {
-    label: "Firefox",
+  salariesExpenses: {
+    label: "Salaries Expenses",
     color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
 export default function ExpenseSummary() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+  const { data: response, isLoading } = useGetDashboardMetricsQuery();
+
+  const expenseSummary = response?.data?.expenseSummary[0];
+
+  const expenseByCategorySummary =
+    response?.data?.expenseByCategorySummary || [];
+
+  const expenseSums = expenseByCategorySummary.reduce(
+    (acc: ExpenseSums, item: ExpenseByCategorySummary) => {
+      const category = item.category + " Expenses";
+      const amount = item.amount;
+      if (!acc[category]) {
+        acc[category] = 0;
+      }
+      acc[category] += amount;
+      return acc;
+    },
+    {},
+  );
+
+  const expenseCategories = Object.entries(expenseSums).map(
+    ([key, value], index) => ({
+      name: key,
+      value: value,
+      fill: `hsl(var(--chart-${index + 1}))`,
+    }),
+  );
+
+  console.log("expenseCategories", expenseCategories);
+
+  const totalExpenses = expenseCategories.reduce(
+    (acc, category: { value: number }) => acc + category.value,
+    0,
+  );
 
   return (
-    <Card className="w-full max-w-3xl">
-      <CardHeader className="flex-none">
+    <Card className="flex h-full flex-col">
+      <CardHeader>
         <CardTitle>Expense Summary</CardTitle>
       </CardHeader>
-      <CardContent className="flex items-center justify-between p-2">
-        {/* chart  */}
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-square h-[100px] w-[100px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={25}
-              outerRadius={45}
-              strokeWidth={2}
+      <CardContent className="flex items-center justify-around">
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            <ChartContainer
+              config={chartConfig}
+              className="h-[120px] aspect-square !p-0 !m-0"
             >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          className="fill-foreground text-xs font-bold"
-                        >
-                          {totalVisitors.toLocaleString()}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 12}
-                          className="fill-muted-foreground text-[8px]"
-                        >
-                          Visitors
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-
-        {/* Color indicators */}
-        <div className="flex flex-col space-y-0.5">
-          {chartData.map((item) => (
-            <div key={item.browser} className="flex items-center">
-              <div
-                className="w-1.5 h-1.5 rounded-full mr-1"
-                style={{ backgroundColor: item.fill }}
-              />
-              <span className="text-[10px]">
-                {chartConfig[item.browser as keyof typeof chartConfig].label}
-              </span>
+              <PieChart>
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Pie
+                  data={expenseCategories}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={40}
+                  outerRadius={55}
+                  strokeWidth={5}
+                >
+                  {/* {expenseCategories.map((_, index) => ( */}
+                  {/*   <Cell key={`cell-${index}`} fill={`chart-${index + 1}`} /> */}
+                  {/* ))} */}
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                          >
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className="fill-foreground text-xl font-bold"
+                            >
+                              ${totalExpenses.toFixed(0)}
+                            </tspan>
+                          </text>
+                        );
+                      }
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+            <div className="flex flex-col gap-2 lg:gap-4">
+              {expenseCategories.map((entry, index) => (
+                <div key={index} className="flex items-center gap-2 text-xs">
+                  <span
+                    className={`w-3 h-3 rounded-full bg-chart-${index + 1}`}
+                  />
+                  <span className="md:text-xs xl:text-sm">{entry.name}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </CardContent>
-      <CardFooter className="flex justify-between text-[10px] text-muted-foreground py-1">
+      <CardFooter className="flex justify-between text-muted-foreground -mt-5">
         <div>
           <p className="text-muted-foreground">Average:</p>
-          <p className="text-xs font-semibold">$80265893.30</p>
+          <p className="text-xs font-semibold">
+            ${expenseSummary?.totalExpenses.toFixed(2)}
+          </p>
         </div>
-        <div className="flex items-center text-emerald-600">
-          <TrendingUp className="w-2 h-2 mr-0.5" />
-          <span>30%</span>
+        <div className="flex gap-2 items-center text-green-500">
+          <TrendingUp size={16} />
+          <span className="text-sm font-semibold">40%</span>
         </div>
       </CardFooter>
     </Card>

@@ -52,8 +52,6 @@ export function SalesSummaryCard() {
     return acc.totalValue > curr.totalValue ? acc : curr;
   }, salesData[0]);
 
-  console.log("highestValueData", highestValueData?.date);
-
   const highestValueDate = highestValueData?.date
     ? new Date(highestValueData.date).toLocaleDateString("en-US", {
         month: "numeric",
@@ -61,8 +59,6 @@ export function SalesSummaryCard() {
         year: "2-digit",
       })
     : "N/A";
-
-  console.log("highestValueDat3", highestValueDate);
 
   if (isError) {
     return <div className="m-5">Failed to fetch data</div>;

@@ -12,7 +12,7 @@ import { desc, sql } from "drizzle-orm";
 import { ApiResponse } from "../types/apiResponse";
 
 export const getDashboardMetrics = async (
-  req: Request,
+  _: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
@@ -42,16 +42,11 @@ export const getDashboardMetrics = async (
       .limit(15);
 
     const expenseByCategorySummary = await db
-      .select({
-        expenseByCategoryId: expenseByCategoryTable.expenseByCategoryId,
-        expenseSummaryId: expenseByCategoryTable.expenseSummaryId,
-        category: expenseByCategoryTable.category,
-        amount: sql<string>`CAST (${expenseByCategoryTable.amount} AS TEXT)`,
-        date: expenseByCategoryTable.date,
-      })
+      .select()
       .from(expenseByCategoryTable)
       .orderBy(desc(expenseByCategoryTable.date))
       .limit(15);
+
 
     const response: ApiResponse = {
       success: true,
