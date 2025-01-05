@@ -8,7 +8,7 @@ import {
   purchaseSummaryTable,
   salesSummaryTable,
 } from "../db/schema";
-import { desc, sql } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 import { ApiResponse } from "../types/apiResponse";
 
 export const getDashboardMetrics = async (
@@ -47,7 +47,6 @@ export const getDashboardMetrics = async (
       .orderBy(desc(expenseByCategoryTable.date))
       .limit(15);
 
-
     const response: ApiResponse = {
       success: true,
       data: {
@@ -63,7 +62,7 @@ export const getDashboardMetrics = async (
   } catch (error) {
     console.error(error);
     const customError = new CustomError(
-      "Error retrieing dashboard metrics",
+      "Error retrieving dashboard metrics",
       500,
     );
     next(customError);
