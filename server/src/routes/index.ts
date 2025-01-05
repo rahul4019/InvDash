@@ -5,6 +5,6 @@ import productRoutes from "./productRoutes";
 const router = express.Router();
 
 router.use("/", dashboardRoutes);
-router.use("/product", productRoutes);
+router.use("/products", productRoutes);
 
 export default router;
