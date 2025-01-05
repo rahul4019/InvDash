@@ -73,8 +73,6 @@ export default function ExpenseSummary() {
     }),
   );
 
-  console.log("expenseCategories", expenseCategories);
-
   const totalExpenses = expenseCategories.reduce(
     (acc, category: { value: number }) => acc + category.value,
     0,
@@ -107,9 +105,6 @@ export default function ExpenseSummary() {
                   outerRadius={55}
                   strokeWidth={5}
                 >
-                  {/* {expenseCategories.map((_, index) => ( */}
-                  {/*   <Cell key={`cell-${index}`} fill={`chart-${index + 1}`} /> */}
-                  {/* ))} */}
                   <Label
                     content={({ viewBox }) => {
                       if (viewBox && "cx" in viewBox && "cy" in viewBox) {
