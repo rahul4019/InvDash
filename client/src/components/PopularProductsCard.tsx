@@ -14,12 +14,12 @@ const StarRating = ({ rating }: { rating: number }) => {
   return (
     <div className="flex items-center">
       {[...Array(fullStars)].map((_, i) => (
-        <Star key={i} className="w-4 h-4 fill-amber-500 text-foreground/50" />
+        <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
       ))}
       {hasHalfStar && (
-        <StarHalf className="w-4 h-4 fill-amber-500 text-foreground/50" />
+        <StarHalf className="w-4 h-4 fill-amber-500 text-amber-500" />
       )}
-      <span className="text-sm">{Number(rating).toFixed(1)}</span>
+      <span className="text-xs ml-1">{Number(rating).toFixed(1)}</span>
     </div>
   );
 };
@@ -28,7 +28,7 @@ export function PopularProductsCard() {
   const { data: response, isLoading } = useGetDashboardMetricsQuery();
   return (
     <Card className="w-full flex flex-col h-full">
-      <CardHeader>
+      <CardHeader className="">
         <CardTitle>Popular Products</CardTitle>
       </CardHeader>
       <CardContent className="px-2">
@@ -54,7 +54,7 @@ export function PopularProductsCard() {
                         height={70}
                         className="rounded-md object-cover"
                       />
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         <h3 className="font-medium leading-none">
                           {product.name}
                         </h3>
