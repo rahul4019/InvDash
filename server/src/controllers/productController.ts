@@ -11,7 +11,7 @@ export const getProducts = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const search = req.query.search?.toString();
+    const search = req.query.search?.toString() || "";
     const products = await db
       .select()
       .from(productsTable)
