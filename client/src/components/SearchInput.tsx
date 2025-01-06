@@ -20,7 +20,7 @@ export default function SearchInput() {
   }, [inputValue]);
 
   return (
-    <div className="space-y-2 ">
+    <div className="space-y-2 w-full">
       <div className="relative">
         <Input
           id="input-27"
