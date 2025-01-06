@@ -20,12 +20,12 @@ export default function SearchInput() {
   }, [inputValue]);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 ">
       <div className="relative">
         <Input
           id="input-27"
-          className="peer pe-2 ps-9 lg:w-96"
-          placeholder="Search..."
+          className="peer pe-2 ps-9 w-full"
+          placeholder="Search Products..."
           type="search"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}

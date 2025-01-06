@@ -2,12 +2,12 @@ import React from "react";
 import { ModeToggle } from "./theme-toggle";
 import { Bell, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import SearchInput from "./SearchInput";
+import NavSearch from "./NavSearch";
 
 function Navbar() {
   return (
     <div className="flex items-center flex-1 justify-between px-4">
-      <SearchInput />
+      <NavSearch />
       <div className="flex gap-4 items-center">
         <ModeToggle />
         <Bell size={20} />
