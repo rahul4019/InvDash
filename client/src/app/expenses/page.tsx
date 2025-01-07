@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
+import { ExpensePieChart } from "@/components/ExpensePieChart";
 
 export default function Expenses() {
   const {
@@ -42,7 +43,7 @@ export default function Expenses() {
         A visual representation of expenses over time
       </p>
       <div className="flex flex-col gap-4 md:flex-row py-8">
-        <Card className="w-full max-w-md">
+        <Card className="w-full md:max-w-md">
           <CardHeader>
             <CardTitle>Filter by Category and Date</CardTitle>
           </CardHeader>
@@ -74,29 +75,7 @@ export default function Expenses() {
             </div>
           </CardContent>
         </Card>
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Filter by Category and Date</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Label className="text-sm font-medium text-foreground">
-              Category
-            </Label>
-            <Select defaultValue="All">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a Category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="All">All</SelectItem>
-                  <SelectItem value="Office">Office</SelectItem>
-                  <SelectItem value="Professional">Professional</SelectItem>
-                  <SelectItem value="Salaries">Salaries</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </CardContent>
-        </Card>
+        <ExpensePieChart />
       </div>
     </div>
   );
