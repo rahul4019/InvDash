@@ -58,7 +58,7 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-interface User {
+export interface User {
   userId: string;
   name: string;
   email: string;
@@ -89,7 +89,7 @@ export const api = createApi({
       invalidatesTags: ["Products"],
     }),
     getUsers: builder.query<ApiResponse<User[]>, void>({
-      query: () => "api/v1/dashboard",
+      query: () => "api/v1/users",
       providesTags: ["Users"],
     }),
   }),
@@ -99,4 +99,5 @@ export const {
   useGetDashboardMetricsQuery,
   useGetProductsQuery,
   useCreateProductMutation,
+  useGetUsersQuery,
 } = api;
