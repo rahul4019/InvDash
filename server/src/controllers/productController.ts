@@ -24,7 +24,6 @@ export const getProducts = async (
 
     res.status(200).json(response);
   } catch (error) {
-    console.error(error);
     const customError = new CustomError("Error retrieving products", 500);
     next(customError);
   }
@@ -37,7 +36,7 @@ export const createProduct = async (
 ): Promise<void> => {
   try {
     const { productId, name, price, rating, stockQuantity } = req.body;
-    
+
     const product: typeof productsTable.$inferInsert = {
       productId,
       name,
@@ -53,7 +52,6 @@ export const createProduct = async (
     };
     res.status(200).json(response);
   } catch (error) {
-    console.error(error);
     const customError = new CustomError("Error creating product", 500);
     next(customError);
   }
