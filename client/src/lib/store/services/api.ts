@@ -58,10 +58,16 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
+interface User {
+  userId: string;
+  name: string;
+  email: string;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
-  tagTypes: ["DashboardMetrics", "Products"],
+  tagTypes: ["DashboardMetrics", "Products", "Users"],
   endpoints: (builder) => ({
     getDashboardMetrics: builder.query<ApiResponse<DashboardMetrics>, void>({
       query: () => "/api/v1/dashboard",
@@ -81,6 +87,10 @@ export const api = createApi({
         body: newProduct,
       }),
       invalidatesTags: ["Products"],
+    }),
+    getUsers: builder.query<ApiResponse<User[]>, void>({
+      query: () => "api/v1/dashboard",
+      providesTags: ["Users"],
     }),
   }),
 });
