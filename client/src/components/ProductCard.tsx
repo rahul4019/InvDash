@@ -19,7 +19,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <Card className="w-full max-w-xs overflow-hidden">
-      <div className="relative aspect-square">
+      <div className="relative aspect-square h-45 w-full">
         <Image
           src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
           alt={name}
@@ -44,9 +44,7 @@ export default function ProductCard({
               }`}
             />
           ))}
-          <span className="ml-2 text-sm text-gray-600">
-            {rating.toFixed(1)}
-          </span>
+          <span className="ml-2 text-sm">{rating.toFixed(1)}</span>
         </div>
       </CardContent>
     </Card>

@@ -23,7 +23,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { LoaderCircle, Plus } from "lucide-react";
+import { useCreateProductMutation } from "@/lib/store/services/api";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -35,13 +37,14 @@ const formSchema = z.object({
   stockQuantity: z.coerce.number().int().nonnegative({
     message: "Stock quantity must be a non-negative integer.",
   }),
-  rating: z.coerce.number().min(0).max(5, {
+  rating: z.coerce.number().int().min(0).max(5, {
     message: "Rating must be between 0 and 5.",
   }),
 });
 
 export default function CreateProductDialog() {
   const [open, setOpen] = useState(false);
+  const [createProduct, { isLoading }] = useCreateProductMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,9 +56,16 @@ export default function CreateProductDialog() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Here you would typically send the data to your backend
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const productData = {
+      ...values,
+      productId: crypto.randomUUID(),
+      price: values.price.toString(),
+    };
+    const res = await createProduct({ ...productData });
+    if (res.data?.success) {
+      toast.success("Product has been created");
+    }
     setOpen(false);
     form.reset();
   }
@@ -136,10 +146,10 @@ export default function CreateProductDialog() {
                   <FormControl>
                     <Input
                       type="number"
-                      step="0.1"
+                      step="1"
                       min="0"
                       max="5"
-                      placeholder="0.0"
+                      placeholder="0"
                       {...field}
                     />
                   </FormControl>
@@ -160,7 +170,14 @@ export default function CreateProductDialog() {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Create</Button>
+              <Button
+                type="submit"
+                className="text-background"
+                disabled={isLoading}
+              >
+                {isLoading && <LoaderCircle className="animate-spin" />}
+                Create
+              </Button>
             </div>
           </form>
         </Form>

@@ -74,11 +74,11 @@ export const api = createApi({
       }),
       providesTags: ["Products"],
     }),
-    createProduct: builder.mutation<Product, NewProduct>({
+    createProduct: builder.mutation<ApiResponse<Product[]>, NewProduct>({
       query: (newProduct) => ({
         url: "/api/v1/products",
         method: "POST",
-        newProduct,
+        body: newProduct,
       }),
       invalidatesTags: ["Products"],
     }),

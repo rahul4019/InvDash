@@ -37,6 +37,7 @@ export const createProduct = async (
 ): Promise<void> => {
   try {
     const { productId, name, price, rating, stockQuantity } = req.body;
+    
     const product: typeof productsTable.$inferInsert = {
       productId,
       name,

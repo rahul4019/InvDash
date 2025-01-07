@@ -53,7 +53,7 @@ export default function CommonStatCard({
                   <p className="text-lg font-bold">{detail.amount}</p>
                   <div className="flex text-sm font-medium items-center">
                     <detail.iconComponent
-                      className={`${iconColor(detail.changePercentage)} mr-1`}
+                      className={`${iconColor(detail?.changePercentage)} mr-1`}
                       size={16}
                     />
                     <span
