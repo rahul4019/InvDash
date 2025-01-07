@@ -105,7 +105,7 @@ export const expenseSummaryRelations = relations(
     expenseByCategory: many(expenseByCategoryTable),
   }),
 );
-
+ 
 export const expenseByCategoryRelations = relations(
   expenseByCategoryTable,
   ({ one }) => ({

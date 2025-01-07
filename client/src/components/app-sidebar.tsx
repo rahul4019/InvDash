@@ -4,8 +4,8 @@ import * as React from "react";
 import {
   Archive,
   PieChartIcon as ChartPie,
+  CircleDollarSign,
   ClipboardList,
-  IndianRupee,
   Settings2,
   UserRound,
 } from "lucide-react";
@@ -52,7 +52,7 @@ const data = {
     {
       title: "Expenses",
       url: "/expenses",
-      icon: IndianRupee,
+      icon: CircleDollarSign,
     },
   ],
 };

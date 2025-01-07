@@ -7,7 +7,6 @@ import Header from "@/components/Header";
 import { useTheme } from "next-themes";
 
 export default function Settings() {
-  const [darkMode, setDarkMode] = useState(false);
   const { theme, setTheme } = useTheme();
   const [notifications, setNotifications] = useState(true);
 
