@@ -64,10 +64,18 @@ export interface User {
   email: string;
 }
 
+export interface Expense {
+  expenseId: string;
+  expenseSummaryId: string;
+  category: string;
+  amount: string;
+  date: string;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
-  tagTypes: ["DashboardMetrics", "Products", "Users"],
+  tagTypes: ["DashboardMetrics", "Products", "Users", "Expenses"],
   endpoints: (builder) => ({
     getDashboardMetrics: builder.query<ApiResponse<DashboardMetrics>, void>({
       query: () => "/api/v1/dashboard",
@@ -92,6 +100,10 @@ export const api = createApi({
       query: () => "api/v1/users",
       providesTags: ["Users"],
     }),
+    getExpenses: builder.query<ApiResponse<Expense[]>, void>({
+      query: () => "api/v1/expenses",
+      providesTags: ["Expenses"],
+    }),
   }),
 });
 
@@ -100,4 +112,5 @@ export const {
   useGetProductsQuery,
   useCreateProductMutation,
   useGetUsersQuery,
+  useGetExpensesQuery,
 } = api;
