@@ -16,7 +16,7 @@ export default function Settings() {
       <p className="text-muted-foreground">
         Manage your account settings and preferences.
       </p>
-      <div className="max-w-3xl py-12">
+      <div className="max-w-3xl py-8">
         <div className="space-y-6">
           <div className="p-6 rounded-lg ">
             <div className="flex items-center gap-2 mb-6">
