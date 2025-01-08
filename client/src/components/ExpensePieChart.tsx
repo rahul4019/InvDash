@@ -1,9 +1,8 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -49,7 +48,7 @@ const chartConfig = {
 
 export function ExpensePieChart() {
   return (
-    <Card className="flex flex-col w-full md:max-w-md">
+    <Card className="flex flex-col w-full max-w-xl">
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
