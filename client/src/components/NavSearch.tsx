@@ -1,14 +1,6 @@
-// Dependencies: pnpm install lucide-react
-
 "use client";
 
-import {
-  ArrowUpRight,
-  CircleFadingPlus,
-  FileInput,
-  FolderPlus,
-  Search,
-} from "lucide-react";
+import { Search } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -19,7 +11,6 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 
 export default function NavSearch() {

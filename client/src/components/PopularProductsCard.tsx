@@ -43,7 +43,7 @@ export function PopularProductsCard() {
             </>
           ) : (
             <div className="space-y-4">
-              {response?.data?.popularProducts.map((product, index) => (
+              {response?.data?.popularProducts.map((product) => (
                 <div key={product.productId}>
                   <div className="flex items-center justify-between space-x-2">
                     <div className="flex items-center space-x-2">

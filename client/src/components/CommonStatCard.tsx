@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@radix-ui/react-separator";
-import { CircleCheck, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { JSX } from "react";
 
 interface StatDetail {

@@ -2,11 +2,7 @@
 
 import Header from "@/components/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Expense,
-  ExpenseByCategorySummary,
-  useGetExpensesByCategoryQuery,
-} from "@/lib/store/services/api";
+import { useGetExpensesByCategoryQuery } from "@/lib/store/services/api";
 
 import {
   Select,

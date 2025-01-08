@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PieChart, Pie, Label, Cell } from "recharts";
+import { PieChart, Pie, Label } from "recharts";
 import { TrendingUp } from "lucide-react";
 
 import {
